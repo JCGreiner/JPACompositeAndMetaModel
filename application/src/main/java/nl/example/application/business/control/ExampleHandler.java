@@ -40,7 +40,7 @@ public class ExampleHandler {
         return object == null ? "" : object.toString();
     }
 
-    public EntityA storeRiskIndicatorScore(EntityA score) {
-        return dao.storeRiskIndicatorScore(score);
+    public EntityA storeEntityA(EntityA score) {
+        return dao.storeEntityA(score);
     }
 }

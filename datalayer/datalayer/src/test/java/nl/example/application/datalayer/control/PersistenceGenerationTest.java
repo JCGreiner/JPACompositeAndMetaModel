@@ -33,11 +33,11 @@ public class PersistenceGenerationTest {
     @Test
     public void answerPersistTest() {
         boolean openEm = em.isOpen();
-        nl.example.application.datalayer.entity.db.EntityA riskIndicatorScore = new EntityA();
+        nl.example.application.datalayer.entity.db.EntityA entityA = new EntityA();
 
-        riskIndicatorScore.setId((long) 10);
-        riskIndicatorScore.setDummyValue("dummy");
-        em.persist(riskIndicatorScore);
+        entityA.setId((long) 10);
+        entityA.setDummyValue("dummy");
+        em.persist(entityA);
 
         Object obj = em.find(EntityA.class, (long) 10);
         logger.log(Level.INFO, "answerPersistTest: Object read contains dummyValue ["

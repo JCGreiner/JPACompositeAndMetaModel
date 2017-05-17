@@ -15,7 +15,6 @@ import nl.example.application.business.control.ExampleHandler;
 import nl.example.application.datalayer.entity.db.EntityA;
 
 @Stateless
-@Path("applicationforms/modify")
 @Consumes("application/json")
 public class ExampleResource {
     static Logger logger = Logger.getLogger(ExampleResource.class.getName());
@@ -24,10 +23,10 @@ public class ExampleResource {
     ExampleHandler handler;
 
     @POST
-    @Path("score")
-    public Response modifyRiskIndicatorScore(EntityA riskIndicatorScore,
+    @Path("store")
+    public Response modifyEntityA(EntityA entityA,
             @Context HttpServletRequest request) {
-        EntityA score = handler.storeRiskIndicatorScore(riskIndicatorScore);
+        EntityA score = handler.storeEntityA(entityA);
         return Response.ok(score).build();
     }
 }

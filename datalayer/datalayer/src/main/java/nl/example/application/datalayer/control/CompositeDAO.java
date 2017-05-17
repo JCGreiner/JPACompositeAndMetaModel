@@ -95,8 +95,8 @@ public class CompositeDAO {
     }
 
 
-    public void storeDummy(EntityA riskIndicatorScore) {
-        getEntityManager().persist(riskIndicatorScore);
+    public void storeDummy(EntityA entityA) {
+        getEntityManager().persist(entityA);
     }
 
     public void flushEntityManager() {
@@ -104,7 +104,7 @@ public class CompositeDAO {
     }
 
 
-    public EntityA storeRiskIndicatorScore(EntityA score) {
+    public EntityA storeEntityA(EntityA score) {
         return getEntityManager().merge(score);
     }
 
