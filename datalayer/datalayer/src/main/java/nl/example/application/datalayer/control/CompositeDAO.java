@@ -19,7 +19,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.persistence.metamodel.EntityType;
 
-import nl.example.application.datalayer.entity.db.RiskIndicatorScore;
+import nl.example.application.datalayer.entity.db.EntityA;
 
 @Stateless
 public class CompositeDAO {
@@ -95,7 +95,7 @@ public class CompositeDAO {
     }
 
 
-    public void storeDummy(RiskIndicatorScore riskIndicatorScore) {
+    public void storeDummy(EntityA riskIndicatorScore) {
         getEntityManager().persist(riskIndicatorScore);
     }
 
@@ -104,7 +104,7 @@ public class CompositeDAO {
     }
 
 
-    public RiskIndicatorScore storeRiskIndicatorScore(RiskIndicatorScore score) {
+    public EntityA storeRiskIndicatorScore(EntityA score) {
         return getEntityManager().merge(score);
     }
 

@@ -12,7 +12,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import nl.example.application.datalayer.entity.db.RiskIndicatorScore;
+import nl.example.application.datalayer.entity.db.EntityA;
 
 
 public class CompositeDAOTest {
@@ -34,7 +34,7 @@ public class CompositeDAOTest {
 
     @Test
     public void when_no_app_form_in_db_expect_null() {
-        assertNull(compositeDAO.find(RiskIndicatorScore.class, Long.valueOf(123)));
+        assertNull(compositeDAO.find(EntityA.class, Long.valueOf(123)));
     }
 
 }

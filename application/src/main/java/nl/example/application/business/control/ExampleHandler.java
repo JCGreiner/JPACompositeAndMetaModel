@@ -12,7 +12,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
 import nl.example.application.datalayer.control.CompositeDAO;
-import nl.example.application.datalayer.entity.db.RiskIndicatorScore;
+import nl.example.application.datalayer.entity.db.EntityA;
 
 @Stateless
 public class ExampleHandler {
@@ -40,7 +40,7 @@ public class ExampleHandler {
         return object == null ? "" : object.toString();
     }
 
-    public RiskIndicatorScore storeRiskIndicatorScore(RiskIndicatorScore score) {
+    public EntityA storeRiskIndicatorScore(EntityA score) {
         return dao.storeRiskIndicatorScore(score);
     }
 }

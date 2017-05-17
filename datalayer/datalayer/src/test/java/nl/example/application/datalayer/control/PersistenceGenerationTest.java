@@ -10,7 +10,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import nl.example.application.datalayer.entity.db.RiskIndicatorScore;
+import nl.example.application.datalayer.entity.db.EntityA;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PersistenceGenerationTest {
@@ -33,15 +33,15 @@ public class PersistenceGenerationTest {
     @Test
     public void answerPersistTest() {
         boolean openEm = em.isOpen();
-        nl.example.application.datalayer.entity.db.RiskIndicatorScore riskIndicatorScore = new RiskIndicatorScore();
+        nl.example.application.datalayer.entity.db.EntityA riskIndicatorScore = new EntityA();
 
         riskIndicatorScore.setId((long) 10);
         riskIndicatorScore.setDummyValue("dummy");
         em.persist(riskIndicatorScore);
 
-        Object obj = em.find(RiskIndicatorScore.class, (long) 10);
+        Object obj = em.find(EntityA.class, (long) 10);
         logger.log(Level.INFO, "answerPersistTest: Object read contains dummyValue ["
-                + ((RiskIndicatorScore) obj).getDummyValue() + "]");
+                + ((EntityA) obj).getDummyValue() + "]");
 
 
     }

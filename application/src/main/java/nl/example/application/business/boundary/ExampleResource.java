@@ -12,7 +12,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 
 import nl.example.application.business.control.ExampleHandler;
-import nl.example.application.datalayer.entity.db.RiskIndicatorScore;
+import nl.example.application.datalayer.entity.db.EntityA;
 
 @Stateless
 @Path("applicationforms/modify")
@@ -25,9 +25,9 @@ public class ExampleResource {
 
     @POST
     @Path("score")
-    public Response modifyRiskIndicatorScore(RiskIndicatorScore riskIndicatorScore,
+    public Response modifyRiskIndicatorScore(EntityA riskIndicatorScore,
             @Context HttpServletRequest request) {
-        RiskIndicatorScore score = handler.storeRiskIndicatorScore(riskIndicatorScore);
+        EntityA score = handler.storeRiskIndicatorScore(riskIndicatorScore);
         return Response.ok(score).build();
     }
 }
