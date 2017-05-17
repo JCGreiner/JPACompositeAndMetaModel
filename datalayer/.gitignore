@@ -1,0 +1,16 @@
+/.idea
+/nbproject
+/target
+/derby.log
+*/nb-configuration.xml
+/.sonar
+*.iml
+.classpath
+.project
+**/.settings
+.idea/
+derby.log
+scriptLog.txt
+*~
+*.log
+/bin/
