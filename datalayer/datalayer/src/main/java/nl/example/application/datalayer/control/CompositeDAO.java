@@ -11,6 +11,8 @@ import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -20,55 +22,78 @@ import javax.persistence.metamodel.EntityType;
 import nl.example.application.datalayer.entity.db.RiskIndicatorScore;
 
 @Stateless
-public class CompositeDAO extends DataServiceLayerAbstract {
+public class CompositeDAO {
     static Logger LOGGER = Logger.getLogger(CompositeDAO.class.getName());
 
 
-    private Map<String, Map<String, String>> mapDataBeans = null;
+    @PersistenceContext(unitName = "CompositePu")
+    protected EntityManager em;
+
+    public void persist(Object o) {
+        em.persist(o);
+    }
+
+    public void merge(Object o) {
+        em.merge(o);
+    }
+
+    public Object find(Class<?> aClass, Object o) {
+        try {
+            return em.find(aClass, o);
+        } catch (Exception e) {
+            LOGGER.log(Level.WARNING, "DataServiceLayerAbstract: find gave exception ", e);
+            return null;
+        }
+    }
+
+    public void clear() {
+        em.clear();
+    }
+
+    public Query createQuery(String s) {
+        return em.createQuery(s);
+    }
+
+    public CriteriaBuilder getCriteriaBuilder() {
+        return em.getCriteriaBuilder();
+    }
+
+    public void remove(Object o) {
+        em.remove(o);
+    }
+
+    public void detach(Object o) {
+        em.detach(o);
+    }
+
+    public boolean isOpen() {
+        return em.isOpen();
+    }
 
     public EntityManager getEntityManager() {
-        if (null != super.em) {
+        if (null != em) {
             logEntities();
-            return super.em;
+            return em;
         } else {
-            super.em = Persistence.createEntityManagerFactory("CompositePu").createEntityManager();
+            em = Persistence.createEntityManagerFactory("CompositePu").createEntityManager();
             LOGGER.log(Level.WARNING, "===== Persistence unit was null - had to be created [",
                     Thread.currentThread().getStackTrace());
             logEntities();
-            return super.em;
+            return em;
         }
     }
 
     private void logEntities() {
-        Set<EntityType<?>> entities = super.em.getMetamodel().getEntities();
+        Set<EntityType<?>> entities = em.getMetamodel().getEntities();
         for (EntityType type : entities) {
             LOGGER.log(Level.FINEST, String.format("name: %s\n", type.getName()));
         }
     }
 
-    @Override
     public void setEntityManager(EntityManager entityManager) {
-        super.em = entityManager;
+        em = entityManager;
     }
 
-
-    private boolean instantiateEntity(final String applicationName, final Class eitityClass) {
-        try {
-            Object object = null;
-            Constructor<?> constructors[] = eitityClass.getConstructors();
-
-            object = constructors[0].newInstance("");
-            if (object != null) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "registerEntityBean: cannot construct entity bean [" + applicationName + ","
-                    + eitityClass.getCanonicalName().toString() + "]");
-            return false;
-        }
-    }
 
     public void storeDummy(RiskIndicatorScore riskIndicatorScore) {
         getEntityManager().persist(riskIndicatorScore);
