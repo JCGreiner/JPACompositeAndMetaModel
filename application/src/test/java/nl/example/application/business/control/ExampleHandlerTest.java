@@ -21,6 +21,7 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import nl.example.application.datalayer.control.CompositeDAO;
+import nl.example.application.datalayer.entity.db.EntityA;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ExampleHandlerTest {
@@ -29,9 +30,7 @@ public class ExampleHandlerTest {
     Logger logger;
     @Mock
     CompositeDAO dao;
-    @Mock
-    ConstraintViolationException constraintViolationException;
-    Set<ConstraintViolation<?>> set;
+    
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 
@@ -42,26 +41,10 @@ public class ExampleHandlerTest {
         handler.logger = logger;
     }
 
-
     @Test
-    public void when_cause_is_not_constraint_violation_nothing_happens() {
-        RuntimeException exception = new RuntimeException("foo");
-        handler.logConstraintViolationsIfAny(exception);
-        verify(logger, Mockito.never()).log(Mockito.any(Level.class), Mockito.anyString());
-    }
-
-    @Test
-    public void when_cause_is_constraint_violation_it_is_logged() {
-        handler.logConstraintViolationsIfAny(constraintViolationException);
-        verify(logger).log(Mockito.any(Level.class), Mockito.anyString());
-    }
-
-    @Test
-    @Ignore
-    public void when_cause_is_constraint_violation_it_is_logged_with_content() {
-        when(constraintViolationException.getConstraintViolations()).thenReturn(set);
-        handler.logConstraintViolationsIfAny(constraintViolationException);
-        verify(logger).log(Mockito.any(Level.class), Mockito.anyString());
+    public void verify_dao_is_invoked_for_store(){
+    	handler.storeEntityA(new EntityA());
+    	Mockito.verify(dao).storeEntityA(Mockito.any(EntityA.class));
     }
 
 }

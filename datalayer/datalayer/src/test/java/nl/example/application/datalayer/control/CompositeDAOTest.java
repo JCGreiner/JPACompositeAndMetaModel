@@ -1,6 +1,7 @@
 package nl.example.application.datalayer.control;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.time.LocalDate;
@@ -37,4 +38,25 @@ public class CompositeDAOTest {
         assertNull(compositeDAO.find(EntityA.class, Long.valueOf(123)));
     }
 
+    @Test
+    public void verify_can_find_entityA_native(){
+    	EntityA entityA = new EntityA();
+    	entityA.setDummyValue("foo");
+    	compositeDAO.storeEntityA(entityA);
+    	
+    	List<EntityA> actual = compositeDAO.findEntityANative("foo");
+    	assertNotNull(actual);
+    	assertEquals(1, actual.size());
+    }
+    
+    @Test
+    public void verify_can_find_entityA_criteria(){
+    	EntityA entityA = new EntityA();
+    	entityA.setDummyValue("bar");
+    	compositeDAO.storeEntityA(entityA);
+    	
+    	List<EntityA> actual = compositeDAO.findEntityACriteria("bar");
+    	assertNotNull(actual);
+    	assertEquals(1, actual.size());
+    }
 }

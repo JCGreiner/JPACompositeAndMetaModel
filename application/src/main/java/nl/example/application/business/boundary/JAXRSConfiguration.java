@@ -71,5 +71,6 @@ public class JAXRSConfiguration extends Application {
         resources.add(nl.example.application.business.boundary.UtilsResources.class);
         resources.add(
         		nl.example.application.business.boundary.ExampleResource.class);
+        resources.add(nl.example.application.business.boundary.ExampleResource.class);
     }
 }

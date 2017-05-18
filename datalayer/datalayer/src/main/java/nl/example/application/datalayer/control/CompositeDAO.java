@@ -16,96 +16,112 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.metamodel.EntityType;
 
 import nl.example.application.datalayer.entity.db.EntityA;
+import nl.example.application.datalayer.entity.db.EntityA_;
 
 @Stateless
 public class CompositeDAO {
-    static Logger LOGGER = Logger.getLogger(CompositeDAO.class.getName());
+	static Logger LOGGER = Logger.getLogger(CompositeDAO.class.getName());
 
+	@PersistenceContext(unitName = "CompositePu")
+	protected EntityManager em;
 
-    @PersistenceContext(unitName = "CompositePu")
-    protected EntityManager em;
+	public void persist(Object o) {
+		em.persist(o);
+	}
 
-    public void persist(Object o) {
-        em.persist(o);
-    }
+	public void merge(Object o) {
+		em.merge(o);
+	}
 
-    public void merge(Object o) {
-        em.merge(o);
-    }
+	public Object find(Class<?> aClass, Object o) {
+		try {
+			return em.find(aClass, o);
+		} catch (Exception e) {
+			LOGGER.log(Level.WARNING, "DataServiceLayerAbstract: find gave exception ", e);
+			return null;
+		}
+	}
 
-    public Object find(Class<?> aClass, Object o) {
-        try {
-            return em.find(aClass, o);
-        } catch (Exception e) {
-            LOGGER.log(Level.WARNING, "DataServiceLayerAbstract: find gave exception ", e);
-            return null;
-        }
-    }
+	public void clear() {
+		em.clear();
+	}
 
-    public void clear() {
-        em.clear();
-    }
+	public Query createQuery(String s) {
+		return em.createQuery(s);
+	}
 
-    public Query createQuery(String s) {
-        return em.createQuery(s);
-    }
+	public CriteriaBuilder getCriteriaBuilder() {
+		return em.getCriteriaBuilder();
+	}
 
-    public CriteriaBuilder getCriteriaBuilder() {
-        return em.getCriteriaBuilder();
-    }
+	public void remove(Object o) {
+		em.remove(o);
+	}
 
-    public void remove(Object o) {
-        em.remove(o);
-    }
+	public void detach(Object o) {
+		em.detach(o);
+	}
 
-    public void detach(Object o) {
-        em.detach(o);
-    }
+	public boolean isOpen() {
+		return em.isOpen();
+	}
 
-    public boolean isOpen() {
-        return em.isOpen();
-    }
+	public EntityManager getEntityManager() {
+		if (null != em) {
+			logEntities();
+			return em;
+		} else {
+			em = Persistence.createEntityManagerFactory("CompositePu").createEntityManager();
+			LOGGER.log(Level.WARNING, "===== Persistence unit was null - had to be created [",
+					Thread.currentThread().getStackTrace());
+			logEntities();
+			return em;
+		}
+	}
 
-    public EntityManager getEntityManager() {
-        if (null != em) {
-            logEntities();
-            return em;
-        } else {
-            em = Persistence.createEntityManagerFactory("CompositePu").createEntityManager();
-            LOGGER.log(Level.WARNING, "===== Persistence unit was null - had to be created [",
-                    Thread.currentThread().getStackTrace());
-            logEntities();
-            return em;
-        }
-    }
+	private void logEntities() {
+		Set<EntityType<?>> entities = em.getMetamodel().getEntities();
+		for (EntityType type : entities) {
+			LOGGER.log(Level.FINEST, String.format("name: %s\n", type.getName()));
+		}
+	}
 
-    private void logEntities() {
-        Set<EntityType<?>> entities = em.getMetamodel().getEntities();
-        for (EntityType type : entities) {
-            LOGGER.log(Level.FINEST, String.format("name: %s\n", type.getName()));
-        }
-    }
+	public void setEntityManager(EntityManager entityManager) {
+		em = entityManager;
+	}
 
-    public void setEntityManager(EntityManager entityManager) {
-        em = entityManager;
-    }
+	public void flushEntityManager() {
+		getEntityManager().flush();
+	}
 
+	public EntityA storeEntityA(EntityA score) {
+		return getEntityManager().merge(score);
+	}
 
-    public void storeDummy(EntityA entityA) {
-        getEntityManager().persist(entityA);
-    }
+	public List<EntityA> findEntityANative(String dummyValue) {
+		TypedQuery<EntityA> query = em.createQuery("select e from EntityA e where e.dummyValue = :dummyValue",
+				EntityA.class);
+		query.setParameter("dummyValue", dummyValue);
+		return query.getResultList();
+	}
 
-    public void flushEntityManager() {
-        getEntityManager().flush();
-    }
-
-
-    public EntityA storeEntityA(EntityA score) {
-        return getEntityManager().merge(score);
-    }
+	public List<EntityA> findEntityACriteria(String dummyValue) {
+		try {
+			CriteriaBuilder cb = em.getCriteriaBuilder();
+			CriteriaQuery<EntityA> cq = cb.createQuery(EntityA.class);
+			Root<EntityA> from = cq.from(EntityA.class);
+			Predicate dummyPredicate = cb.equal(from.get(EntityA_.dummyValue),
+					cb.parameter(String.class, "dummyValue"));
+			cq.select(from).where(dummyPredicate);
+			return em.createQuery(cq).setParameter("dummyValue", dummyValue).getResultList();
+		} catch (Exception e) {
+			throw new DAOException("Problem execution criteria query", e);
+		}
+	}
 
 }
