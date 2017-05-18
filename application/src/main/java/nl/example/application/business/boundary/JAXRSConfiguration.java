@@ -55,9 +55,10 @@ public class JAXRSConfiguration extends Application {
 
     @Override
     public Set<Class<?>> getClasses() {
-        Set<Class<?>> resources = new HashSet();
+        Set<Class<?>> resources = new HashSet<>();
         resources.add(io.swagger.jaxrs.listing.ApiListingResource.class);
         resources.add(io.swagger.jaxrs.listing.SwaggerSerializers.class);
+        resources.add(nl.example.application.datalayer.control.DAOExceptionMapper.class);
         addRestResourceClasses(resources);
         return resources;
     }
