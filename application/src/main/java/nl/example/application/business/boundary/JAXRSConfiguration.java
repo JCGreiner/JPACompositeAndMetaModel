@@ -31,9 +31,10 @@ public class JAXRSConfiguration extends Application {
         try {
             ctx = new InitialContext();
             lookup = (String) ctx.lookup("configuration/serverUrl");
-            LOGGER.log(Level.INFO, "Running at server url: " + lookup);
+            String msg = String.format("Running at server url: %s", lookup);
+            LOGGER.log(Level.INFO, msg);
         } catch (NamingException e) {
-            LOGGER.log(Level.WARNING, "Error while retireving server url", e);
+            LOGGER.log(Level.WARNING, "Error while retrieving server url", e);
         }
         beanConfig = new BeanConfig();
         beanConfig.setTitle("example");

@@ -41,19 +41,19 @@ public class ExampleResource {
 	@Path("findNative/{dummyValue}")
 	public Response findEntityAByDummyValueNative(@PathParam("dummyValue") String dummyValue,
 			@Context HttpServletRequest request) {
-		List<EntityA> list = handler.findEntityANative(dummyValue);
-		GenericEntity<List<EntityA>> generic = new GenericEntity<List<EntityA>>(list) {
-		};
-		return Response.ok(generic).build();
+		GenericEntity<List<EntityA>> genericEntity = wrapInGenericEntity(handler.findEntityANative(dummyValue));
+		return Response.ok(genericEntity).build();
 	}
 
+	GenericEntity<List<EntityA>> wrapInGenericEntity(List<EntityA> list){
+		return new GenericEntity<List<EntityA>>(list) {
+		};
+	}
 	@GET
 	@Path("findCriteria/{dummyValue}")
 	public Response findEntityAByDummyValueCriteria(@PathParam("dummyValue") String dummyValue,
 			@Context HttpServletRequest request) {
-		List<EntityA> list = handler.findEntityACriteria(dummyValue);
-		GenericEntity<List<EntityA>> generic = new GenericEntity<List<EntityA>>(list) {
-		};
-		return Response.ok(generic).build();
+		GenericEntity<List<EntityA>> genericEntity = wrapInGenericEntity(handler.findEntityACriteria(dummyValue));
+		return Response.ok(genericEntity).build();
 	}
 }

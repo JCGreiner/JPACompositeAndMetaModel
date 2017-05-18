@@ -14,7 +14,7 @@ public class UtilsResources {
 
     @GET
     @Path("ping")
-    @io.swagger.annotations.ApiOperation(value = "Ping", notes = "Ping the example Service.")
+    @io.swagger.annotations.ApiOperation(value = "Ping", notes = "Ping the example")
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "Ok", response = PingResponse.class)
     })

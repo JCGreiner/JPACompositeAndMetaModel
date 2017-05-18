@@ -1,9 +1,6 @@
 package nl.example.application.datalayer.control;
 
-import java.lang.reflect.Constructor;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -86,7 +83,7 @@ public class CompositeDAO {
 
 	private void logEntities() {
 		Set<EntityType<?>> entities = em.getMetamodel().getEntities();
-		for (EntityType type : entities) {
+		for (EntityType<?> type : entities) {
 			LOGGER.log(Level.FINEST, String.format("name: %s\n", type.getName()));
 		}
 	}

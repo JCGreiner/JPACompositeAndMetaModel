@@ -1,17 +1,8 @@
 package nl.example.application.business.control;
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.util.Set;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
-
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;

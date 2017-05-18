@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -27,10 +26,6 @@ public class CompositeDAOTest {
     public void setUp() {
         compositeDAO = new CompositeDAO();
         compositeDAO.setEntityManager(em);
-    }
-
-    @Test
-    public void doNothing() {
     }
 
     @Test

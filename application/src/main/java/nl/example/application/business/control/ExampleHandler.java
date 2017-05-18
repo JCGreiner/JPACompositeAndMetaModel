@@ -1,6 +1,5 @@
 package nl.example.application.business.control;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -15,12 +14,6 @@ public class ExampleHandler {
 	Logger logger = Logger.getLogger(ExampleHandler.class.getName());
 	@Inject
 	CompositeDAO dao;
-
-	static final List<String> EXCLUDED_ATTRIBUTES = Arrays.asList("id");
-
-	String nullToEmpty(Object object) {
-		return object == null ? "" : object.toString();
-	}
 
 	public EntityA storeEntityA(EntityA score) {
 		return dao.storeEntityA(score);

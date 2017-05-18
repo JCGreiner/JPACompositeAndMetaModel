@@ -32,17 +32,15 @@ public class PersistenceGenerationTest {
 
     @Test
     public void answerPersistTest() {
-        boolean openEm = em.isOpen();
         nl.example.application.datalayer.entity.db.EntityA entityA = new EntityA();
 
         entityA.setId((long) 10);
         entityA.setDummyValue("dummy");
         em.persist(entityA);
 
-        Object obj = em.find(EntityA.class, (long) 10);
+        EntityA found = em.find(EntityA.class, (long) 10);
         logger.log(Level.INFO, "answerPersistTest: Object read contains dummyValue ["
-                + ((EntityA) obj).getDummyValue() + "]");
-
+                + found.getDummyValue() + "]");
 
     }
 }
