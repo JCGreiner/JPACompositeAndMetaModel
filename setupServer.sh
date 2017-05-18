@@ -39,6 +39,6 @@ asadmin -p $ADMIN_PORT delete-jdbc-connection-pool --cascade examplePool
 asadmin -p $ADMIN_PORT create-jdbc-connection-pool --datasourceclassname org.postgresql.ds.PGSimpleDataSource --restype javax.sql.DataSource --property portNumber=5432:password=example:user=example:serverName=localhost:databaseName=example examplePool
 asadmin -p $ADMIN_PORT create-jdbc-resource --connectionpoolid examplePool jdbc/DataSource
 
-asadmin -p $ADMIN_PORT create-custom-resource --restype java.lang.String --factoryclass org.glassfish.resources.custom.factory.PrimitivesAndStringFactory --property value='localhost' configuration/serverUrl
+asadmin -p $ADMIN_PORT create-custom-resource --restype java.lang.String --factoryclass org.glassfish.resources.custom.factory.PrimitivesAndStringFactory --property value='localhost\:${WEB_PORT}' configuration/serverUrl
 
 asadmin -p $ADMIN_PORT restart-domain $DOMAIN
