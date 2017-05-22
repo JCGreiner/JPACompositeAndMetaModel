@@ -5,7 +5,10 @@
   <persistence-unit name="CompositePu" transaction-type="JTA">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <jar-file>entity-${project.version}.jar</jar-file>
+    <!--  
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    -->
+    <class>nl.example.application.datalayer.entity.db.EntityA</class>
     <properties>
       <property name="eclipselink.composite-unit" value="true" />
       <property name="eclipselink.logging.parameters" value="true" />

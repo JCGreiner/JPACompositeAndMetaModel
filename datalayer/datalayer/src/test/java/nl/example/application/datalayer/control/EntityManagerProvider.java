@@ -1,9 +1,12 @@
 package nl.example.application.datalayer.control;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
 
+import org.jboss.weld.environment.se.Weld;
+import org.jboss.weld.environment.se.WeldContainer;
+import org.jboss.weld.inject.WeldInstance;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
@@ -13,7 +16,11 @@ public class EntityManagerProvider implements TestRule {
     private EntityTransaction et;
 
     private EntityManagerProvider(String unitName) {
-        em = Persistence.createEntityManagerFactory(unitName).createEntityManager();
+    	WeldContainer container = new Weld().initialize();
+    	WeldInstance<EntityManagerFactoryProducer> select = container.select(EntityManagerFactoryProducer.class, new PersistenceUnitProducerLiteral(unitName));
+		EntityManagerFactoryProducer factoryProducer = select.get();
+    	EntityManagerFactory entityManagerFactory = factoryProducer.getEntityManagerFactory();
+    	em = entityManagerFactory.createEntityManager();
         et = em.getTransaction();
     }
 
